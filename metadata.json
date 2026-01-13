@@ -1,0 +1,7 @@
+{
+  "name": "Sudrsya - Traditional Jewellery & Sarees",
+  "description": "An elegant e-commerce showcase platform for traditional Indian jewellery and sarees with WhatsApp integration and a rich admin dashboard.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

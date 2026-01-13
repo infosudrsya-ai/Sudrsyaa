@@ -1,0 +1,33 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+VITE_FIREBASE_API_KEY=AIzaSyDN_En-hsnFlBObxy0GtoE4fwzSV3HMwEU
+VITE_FIREBASE_AUTH_DOMAIN=dbforsudrys.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=dbforsudrys
+VITE_FIREBASE_STORAGE_BUCKET=dbforsudrys.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=682738987002
+VITE_FIREBASE_APP_ID=1:682738987002:web:76ec6541cd323bbcfa7e43
+VITE_FIREBASE_MEASUREMENT_ID=G-5QZDG8942P

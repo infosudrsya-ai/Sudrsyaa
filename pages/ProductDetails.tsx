@@ -75,9 +75,8 @@ const ProductDetails: React.FC<{ onAddToCart: (p: Product) => void }> = ({ onAdd
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  const handleDirectWhatsApp = async () => {
+  const handleDirectWhatsApp = () => {
     if (!product) return;
-    await firestoreHelpers.incrementWhatsApp(product.id);
     
     const cartItem: CartItem = { ...product, quantity };
     const minimalOfferDetails = {
@@ -86,6 +85,9 @@ const ProductDetails: React.FC<{ onAddToCart: (p: Product) => void }> = ({ onAdd
     };
     
     sendToWhatsApp([cartItem], minimalOfferDetails);
+    
+    // Fire-and-forget analytics call
+    firestoreHelpers.incrementWhatsApp(product.id).catch(err => console.error('Analytics error:', err));
   };
 
   if (loading) return (

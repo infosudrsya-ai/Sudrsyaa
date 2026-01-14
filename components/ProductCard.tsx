@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Product, Category, ELIGIBLE_FOR_OFFER } from '../types';
-import { ShoppingBag, Lock } from 'lucide-react';
+import { ShoppingBag, Lock, Frown } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -11,14 +11,12 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   const isEligible = ELIGIBLE_FOR_OFFER.includes(product.category);
-  
-  // Calculate original price correctly based on final price and discount percentage
   const originalPrice = product.discount > 0 
     ? Math.round(product.price / (1 - product.discount / 100)) 
     : product.price;
 
   return (
-    <div className={`group relative bg-white overflow-hidden transition-all duration-500 flex flex-col h-full ${product.isSoldOut ? 'opacity-75' : ''}`}>
+    <div className={`group relative bg-white overflow-hidden transition-all duration-500 flex flex-col h-full ${product.isSoldOut ? 'opacity-80' : ''}`}>
       <Link to={`/product/${product.id}`} className="block overflow-hidden relative aspect-[3/4] rounded-[2rem] bg-gray-50">
         <img 
           src={product.images[0] || 'https://picsum.photos/400/600'} 
@@ -29,7 +27,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
         {/* Badges */}
         <div className="absolute top-6 left-6 flex flex-col space-y-2 z-10">
           {product.isSoldOut ? (
-            <div className="bg-gray-800 text-white text-[9px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">Sold Out</div>
+            <div className="bg-red-600 text-white text-[9px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg flex items-center space-x-1">
+              <Lock size={10} />
+              <span>Sold Out</span>
+            </div>
           ) : (
             <>
               {isEligible && (
@@ -51,7 +52,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
         </div>
 
         {/* Action Overlay */}
-        {!product.isSoldOut && (
+        {!product.isSoldOut ? (
           <div className="absolute inset-x-0 bottom-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 z-10">
             <button 
               onClick={(e) => { e.preventDefault(); onAddToCart(product); }}
@@ -61,11 +62,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
               <span>Add to Cart</span>
             </button>
           </div>
-        )}
-        
-        {product.isSoldOut && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/10 z-10">
-             <div className="bg-white/80 p-3 rounded-full"><Lock size={20} className="text-gray-400" /></div>
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/10 z-10 transition-opacity opacity-0 group-hover:opacity-100 backdrop-blur-[1px]">
+             <div className="bg-white/95 px-6 py-3 rounded-2xl flex items-center space-x-2 text-gray-400 font-bold uppercase tracking-widest text-[9px] shadow-2xl">
+                <Frown size={14} />
+                <span>Currently Unavailable</span>
+             </div>
           </div>
         )}
       </Link>
@@ -85,8 +87,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
         </Link>
         
         <div className="flex items-center space-x-3 mt-auto">
-          <span className="text-xl font-bold text-gray-900">₹{product.price.toLocaleString()}</span>
-          {product.discount > 0 && (
+          <span className={`text-xl font-bold ${product.isSoldOut ? 'text-gray-400' : 'text-gray-900'}`}>₹{product.price.toLocaleString()}</span>
+          {product.discount > 0 && !product.isSoldOut && (
             <span className="text-sm text-gray-400 line-through">
               ₹{originalPrice.toLocaleString()}
             </span>

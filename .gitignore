@@ -24,6 +24,8 @@ dist-ssr
 *.sw?
 
 
+
+
 VITE_FIREBASE_API_KEY=AIzaSyDN_En-hsnFlBObxy0GtoE4fwzSV3HMwEU
 VITE_FIREBASE_AUTH_DOMAIN=dbforsudrys.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=dbforsudrys

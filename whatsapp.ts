@@ -1,7 +1,7 @@
 
 import { CartItem } from './types';
 
-const WHATSAPP_NUMBER = "919000000000"; // Replace with actual number
+const WHATSAPP_NUMBER = "919187298479"; // Replace with actual number
 
 export const sendToWhatsApp = (cart: CartItem[], offerDetails: any) => {
   let message = `*Order Inquiry from Sudrsya Website*\n\n`;

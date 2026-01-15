@@ -103,7 +103,46 @@ const InfoPage: React.FC = () => {
         setContent({
           title: 'Contact Us',
           sections: [
-            { h: 'Connect with the Sudrsya Atelier', p: 'Our personal consultants are available Monday to Saturday, 10:30 AM to 6:30 PM. For immediate inquiries regarding order status or bespoke design consultations, reach out to us at +91 6264747608 or email support@alankara.co.in.' }
+           {
+  h: 'Connect with the Sudrsya Atelier',
+  p: (
+    <div className="space-y-6">
+      <p className="text-gray-700 italic leading-relaxed">
+        Our personal style consultants are available Monday to Saturday, from
+        10:30 AM to 6:30 PM. For immediate assistance with order updates or
+        bespoke design consultations, reach out to us using the details below.
+      </p>
+
+      {/* Contact Boxes */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        
+        {/* Phone Box */}
+        <a
+          href="tel:+919187298479"
+          className="border rounded-xl p-5 hover:shadow-md transition group"
+        >
+          <p className="text-sm text-gray-500 mb-1">Call Us</p>
+          <p className="text-2xl font-bold tracking-wide text-gray-900 group-hover:underline font-mono">
+  +91 91872 98479
+</p>
+        </a>
+
+        {/* Email Box */}
+        <a
+          href="mailto:info.sudrsya@gmail.com"
+          className="border rounded-xl p-5 hover:shadow-md transition group"
+        >
+          <p className="text-sm text-gray-500 mb-1">Email Us</p>
+          <p className="text-lg font-medium text-gray-900 group-hover:underline">
+            info.sudrsya@gmail.com
+          </p>
+        </a>
+
+      </div>
+    </div>
+  )
+}
+
           ]
         });
         break;

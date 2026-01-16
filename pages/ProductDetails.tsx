@@ -115,6 +115,11 @@ const ProductDetails: React.FC<{ onAddToCart: (p: Product) => void }> = ({ onAdd
   
   if (!product) return <div className="h-screen flex items-center justify-center text-maroon text-2xl font-serif">Treasure not found.</div>;
 
+  // Calculate the original price based on the discount from the DB
+  const originalPrice = product.discount > 0 
+    ? product.price / (1 - (product.discount / 100)) 
+    : product.price;
+
   return (
     <div className="bg-white">
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
@@ -176,14 +181,16 @@ const ProductDetails: React.FC<{ onAddToCart: (p: Product) => void }> = ({ onAdd
       ₹{product.price.toLocaleString()}
     </span>
 
-    {/* Comparison Price and Percent */}
+    {/* Comparison Price and Percent pulled from DB */}
     <div className="flex flex-col">
       <span className="text-gray-400 line-through text-xl font-light">
-        ₹{(product.price * 1.25).toLocaleString()}
+        ₹{Math.round(originalPrice).toLocaleString()}
       </span>
-      <span className="text-green-600 text-sm font-bold">
-        20% OFF
-      </span>
+      {product.discount > 0 && (
+        <span className="text-green-600 text-sm font-bold">
+          {product.discount}% OFF
+        </span>
+      )}
     </div>
   </div>
 
@@ -193,9 +200,7 @@ const ProductDetails: React.FC<{ onAddToCart: (p: Product) => void }> = ({ onAdd
   </p>
 </div>
 
-              <p className="text-xl font-serif text-gray-600 italic leading-relaxed mb-10 border-l-4 border-maroon/10 pl-6">
-                "{product.shortDescription}"
-              </p>
+              
             </div>
 
             {/* Actions */}
@@ -229,7 +234,7 @@ const ProductDetails: React.FC<{ onAddToCart: (p: Product) => void }> = ({ onAdd
 
             {/* Accordion Sections */}
             <div className="space-y-4">
-              {/* DESCRIPTION SECTION (New) */}
+              {/* DESCRIPTION SECTION (Pulls Long Description) */}
               <div className="border border-gray-100 rounded-[2rem] overflow-hidden">
                 <button 
                   onClick={() => setOpenAccordion(openAccordion === 'description' ? null : 'description')}
@@ -244,11 +249,11 @@ const ProductDetails: React.FC<{ onAddToCart: (p: Product) => void }> = ({ onAdd
                 
                 <div className={`overflow-hidden transition-all duration-500 ease-in-out ${openAccordion === 'description' ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
                   <div className="p-8 bg-white">
-                    <div className="prose prose-sm text-gray-600 mb-10 leading-relaxed font-medium">
-                      {product.description || "Indulge in the timeless elegance of Sudrsya. This piece is a testament to India's rich heritage, meticulously crafted by master artisans. Every curve and stone is placed with intention, ensuring you don't just wear jewelry, but a story of tradition."}
+                    <div className="prose prose-sm text-gray-600 mb-10 leading-relaxed font-medium whitespace-pre-wrap">
+                      {product.longDescription || "Indulge in the timeless elegance of Sudrsya. This piece is a testament to India's rich heritage, meticulously crafted by master artisans."}
                     </div>
 
-                    {/* TRUST BADGES SECTION (Based on Image) */}
+                    {/* TRUST BADGES SECTION */}
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-6 border-t border-gray-100">
                        <div className="flex flex-col items-center text-center group">
                           <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
@@ -285,7 +290,7 @@ const ProductDetails: React.FC<{ onAddToCart: (p: Product) => void }> = ({ onAdd
                 </div>
               </div>
 
-              {/* SHIPPING & RETURNS SECTION (Updated) */}
+              {/* SHIPPING & RETURNS SECTION */}
               <div className="border border-gray-100 rounded-[2rem] overflow-hidden">
                 <button 
                   onClick={() => setOpenAccordion(openAccordion === 'shipping' ? null : 'shipping')}
@@ -303,7 +308,7 @@ const ProductDetails: React.FC<{ onAddToCart: (p: Product) => void }> = ({ onAdd
                     {[
                       { title: 'Domestic Shipping', icon: <Package size={14} />, content: 'Free delivery within India. Orders are processed within 24-48 hours and typically reach in 3-5 business days.' },
                       { title: 'International Shipping', icon: <Globe size={14} />, content: 'Flat rate shipping worldwide. International orders take 7-12 business days depending on customs processing.' },
-                      { title: 'Return & Exchange Policy', icon: <RotateCcw size={14} />, content: 'We offer a 7-day hassle-free exchange for unused items in original packaging. Please note that custom-made or personalized pieces are non-returnable. To initiate a return, contact our support team via WhatsApp with your order ID.' }
+                      { title: 'Return & Exchange Policy', icon: <RotateCcw size={14} />, content: 'We offer a 7-day hassle-free exchange for unused items in original packaging. Please note that custom-made or personalized pieces are non-returnable.' }
                     ].map((item) => (
                       <div key={item.title} className="border border-gray-50 rounded-2xl overflow-hidden">
                         <button 
